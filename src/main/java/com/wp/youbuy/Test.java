@@ -13,7 +13,7 @@ public class Test {
 		String url = "http://gw.api.taobao.com/router/rest?v=2.0&sign_method=md5&format=json&timestamp=2016-01-01 12:00:00";
 		
 		String appkey = "27711478";
-		String secret = "fbf211cd7042770a79e9e8ac096f7694";
+		String secret = "afbf211cd7042770a79e9e8ac096f7694";
 		TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
 		TbkItemRecommendGetRequest req = new TbkItemRecommendGetRequest();
 		req.setNumIid(11223344L);
