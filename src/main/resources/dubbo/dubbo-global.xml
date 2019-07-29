@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+         http://www.springframework.org/schema/beans/spring-beans.xsd 
+         http://code.alibabatech.com/schema/dubbo 
+         http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+        
+    <!--若要实现优雅停机，在启动时，需指定参数-Ddubbo.shutdown.hook=true -->
+    <dubbo:application name="${dubbo.application.name}" organization="dafy" environment="${environment}" compiler="javassist"/>
+
+    <dubbo:registry address="${dubbo.registry.address}" username="" password=""
+        register="true" subscribe="true" file="${dubbo.cache.file}"  group="${dubbo.registry.group}"/>
+
+    <dubbo:protocol name="dubbo" port="${dubbo.protocol.port}" accepts="1024" charset="UTF-8" 
+                    threadpool="cached" threads="${dubbo.service.provider.threads}"/>
+    
+    <dubbo:provider protocol="dubbo" timeout="3000" cluster="failover" retries="1" loadbalance="leastactive" delay="-1">
+        <dubbo:parameter key="shutdown.timeout" value="${dubbo.shutdown.timeout}"/>
+    </dubbo:provider>
+    
+    <dubbo:consumer proxy="javassist" cluster="failover" retries="1" loadbalance="leastactive" check="false"
+            init="false" timeout="${dubbo.consumer.timeout}">
+        <dubbo:parameter key="shutdown.timeout" value="${dubbo.shutdown.timeout}"/>
+    </dubbo:consumer>
+</beans>
